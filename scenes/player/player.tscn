@@ -48,7 +48,7 @@ properties/0/sync = true
 properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
-properties/2/path = NodePath("GPUParticles3D:emitting")
+properties/2/path = NodePath("Chat:text")
 properties/2/spawn = true
 properties/2/sync = true
 
@@ -90,6 +90,14 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_ri212")
 
+[node name="LineEdit" type="LineEdit" parent="Control"]
+visible = false
+layout_mode = 0
+offset_left = 41.0
+offset_top = 564.0
+offset_right = 317.0
+offset_bottom = 602.0
+
 [node name="GPUParticles3D" type="GPUParticles3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.44376)
 emitting = false
@@ -100,3 +108,10 @@ draw_pass_1 = SubResource("SphereMesh_ngwog")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_80xxs")
+
+[node name="Chat" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.47582, 0)
+billboard = 1
+fixed_size = true
+texture_filter = 5
+font_size = 12
