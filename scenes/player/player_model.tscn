@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://qaamixjpfly7"]
+
+[ext_resource type="PackedScene" uid="uid://dnebnbj7wpr32" path="res://scenes/player/model.gltf" id="1_4eh47"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cu8tx"]
+albedo_color = Color(0.298039, 0.635294, 0, 1)
+
+[node name="model" instance=ExtResource("1_4eh47")]
+
+[node name="Ship" parent="." index="0"]
+surface_material_override/0 = SubResource("StandardMaterial3D_cu8tx")

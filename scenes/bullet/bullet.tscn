@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://bn1inmw6ojyn7"]
+
+[ext_resource type="Script" path="res://scenes/bullet/bullet.gd" id="1_6aogr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g24rh"]
+radius = 0.25
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l4lpt"]
+shading_mode = 2
+albedo_color = Color(0.980392, 0, 0.133333, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 16.0
+grow_amount = -0.15
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ja84p"]
+material = SubResource("StandardMaterial3D_l4lpt")
+radius = 0.25
+
+[sub_resource type="Curve" id="Curve_3jtfu"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_yr63o"]
+curve = SubResource("Curve_3jtfu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1ycd5"]
+direction = Vector3(0, -1, 0)
+spread = 0.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_yr63o")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n0lcb"]
+shading_mode = 0
+albedo_color = Color(0.952941, 0, 0.215686, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_00hxt"]
+material = SubResource("StandardMaterial3D_n0lcb")
+
+[node name="Bullet" type="CharacterBody3D"]
+motion_mode = 1
+script = ExtResource("1_6aogr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_g24rh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_ja84p")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+emitting = false
+amount = 2048
+one_shot = true
+trail_lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_1ycd5")
+draw_pass_1 = SubResource("SphereMesh_00hxt")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
