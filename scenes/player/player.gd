@@ -63,6 +63,7 @@ func _physics_process(delta):
 func _spawn_particles(on_off):
 	$GPUParticles3D.set_emitting(on_off)
 
+
 @rpc("call_local")
 func _shoot_weapon():
 	var new_bullet = bullet_scene.instantiate()
