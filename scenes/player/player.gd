@@ -1,5 +1,6 @@
 extends CharacterBody3D
 
+var peer_id: int
 
 const SPEED = 20.0
 
@@ -13,7 +14,8 @@ var mouse_steering: Vector2 = Vector2.ZERO
 
 
 func _enter_tree():
-	set_multiplayer_authority(str(self.name).to_int())
+	self.peer_id = self.name.to_int()
+	set_multiplayer_authority(self.peer_id)
 
 func _ready():
 	if not is_multiplayer_authority():
@@ -72,10 +74,16 @@ func _shoot_weapon():
 	get_tree().current_scene.add_child(new_bullet, true)
 
 func _handle_chat():
-	if chat_entry.visible:
-		chat_display.text = chat_entry.text
+	if chat_entry.is_visible():
+		self.update_text.rpc(chat_entry.text)
 		chat_entry.hide()
 	else:
 		chat_entry.text = ""
 		chat_entry.show()
 		chat_entry.grab_focus()
+
+
+@rpc("call_local")
+func update_text(new_text):
+	chat_display.text = new_text
+	
