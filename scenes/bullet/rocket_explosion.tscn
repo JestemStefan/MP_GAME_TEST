@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://8wa8il0sunhy"]
+
+[sub_resource type="Curve" id="Curve_hjuky"]
+_data = [Vector2(0, 0), 0.0, 50.7818, 0, 0, Vector2(0.0338346, 1), -1.87409, -1.87409, 0, 0, Vector2(1, 0), 0.23592, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_4d1lh"]
+curve = SubResource("Curve_hjuky")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_208mq"]
+direction = Vector3(0, 0, 0)
+spread = 180.0
+gravity = Vector3(0, 0, 0)
+initial_velocity_max = 25.0
+damping_min = 30.0
+damping_max = 50.0
+scale_max = 5.0
+scale_curve = SubResource("CurveTexture_4d1lh")
+turbulence_noise_strength = 5.55
+turbulence_noise_scale = 3.35
+
+[sub_resource type="SphereMesh" id="SphereMesh_wjpd5"]
+
+[node name="RocketExplosion" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.028244, 0.0601616, 0.027853)
+emitting = false
+amount = 256
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_208mq")
+draw_pass_1 = SubResource("SphereMesh_wjpd5")
