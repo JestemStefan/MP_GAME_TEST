@@ -49,7 +49,7 @@ properties/1/path = NodePath(".:rotation")
 properties/1/spawn = true
 properties/1/sync = true
 
-[node name="Player" type="CharacterBody3D"]
+[node name="Player" type="CharacterBody3D" groups=["players"]]
 motion_mode = 1
 script = ExtResource("1_5d0vp")
 

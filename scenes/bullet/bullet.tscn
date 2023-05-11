@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://bn1inmw6ojyn7"]
 
-[ext_resource type="Script" path="res://scenes/bullet/bullet.gd" id="1_6aogr"]
+[ext_resource type="Script" path="res://scenes/bullet/bullet.gd" id="1_rei1n"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_g24rh"]
 radius = 0.25
@@ -39,7 +39,7 @@ material = SubResource("StandardMaterial3D_n0lcb")
 
 [node name="Bullet" type="CharacterBody3D"]
 motion_mode = 1
-script = ExtResource("1_6aogr")
+script = ExtResource("1_rei1n")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)

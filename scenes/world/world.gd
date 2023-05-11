@@ -9,6 +9,8 @@ var enet_peer = ENetMultiplayerPeer.new()
 
 const player_scene = preload("res://scenes/player/player.tscn")
 
+var peer_mapping: Dictionary = {}
+
 func _unhandled_input(event):
 	if Input.is_action_just_released("ui_cancel"):
 		get_tree().quit()
@@ -23,7 +25,8 @@ func _on_host_button_button_up():
 	
 	multiplayer.peer_connected.connect(add_player)
 	
-	self.add_player(multiplayer.get_unique_id())
+	var host_id = multiplayer.get_unique_id()
+	self.add_player(host_id)
 	
 	self.upnp_setup()
 
@@ -55,3 +58,6 @@ func upnp_setup():
 		"UPNP Port Mapping Failed! Error %s" % map_result)
 	
 	print("Success! Join Address: %s" % upnp.query_external_address())
+		
+	
+	
