@@ -26,6 +26,8 @@ func _on_host_button_button_up():
 	multiplayer.peer_connected.connect(add_player)
 	
 	var host_id = multiplayer.get_unique_id()
+	
+	print("Server id: " + str(host_id))
 	self.add_player(host_id)
 	
 	self.upnp_setup()

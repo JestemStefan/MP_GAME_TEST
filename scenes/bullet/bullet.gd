@@ -21,6 +21,9 @@ func _physics_process(delta):
 	var collision = move_and_collide(self.velocity * delta)
 	
 	if collision:
+		if collision.get_collider() == target and multiplayer.is_server():
+			target.receive_damage.rpc_id(target.peer_id)
+			
 		self._explode()
 		
 
@@ -33,4 +36,4 @@ func _explode():
 	explosion.position = self.position
 	explosion.emitting = true
 	get_tree().current_scene.add_child(explosion)
-	self.call_deferred("queue_free")
+	self.call_deferred("free")

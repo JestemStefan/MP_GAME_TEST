@@ -1,45 +1,57 @@
-[gd_scene load_steps=13 format=3 uid="uid://6531u4e2107u"]
+[gd_scene load_steps=14 format=3 uid="uid://6531u4e2107u"]
 
 [ext_resource type="Script" path="res://scenes/player/player.gd" id="1_5d0vp"]
+[ext_resource type="PackedScene" uid="uid://cshppr41gllxb" path="res://scenes/player/fighter/fither.tscn" id="2_ic07s"]
 [ext_resource type="Texture2D" uid="uid://wylfcgnlj6h3" path="res://icon.svg" id="2_ri212"]
-[ext_resource type="PackedScene" uid="uid://qaamixjpfly7" path="res://scenes/player/player_model.tscn" id="3_lu40k"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_n2gwh"]
-radius = 1.82591
+radius = 1.34702
 height = 6.8467
 
 [sub_resource type="Gradient" id="Gradient_uhag6"]
-offsets = PackedFloat32Array(0, 0.123288, 0.250489, 1)
-colors = PackedColorArray(1, 1, 0, 1, 0.905378, 0.163748, 0.164437, 1, 0, 0, 0, 1, 1, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.234043, 1)
+colors = PackedColorArray(0.852271, 1, 0.923144, 1, 0.00114051, 0.291591, 0.967046, 1, 0, 0.290196, 0.968627, 0)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_hppf4"]
 gradient = SubResource("Gradient_uhag6")
 
-[sub_resource type="Curve" id="Curve_8t164"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0405904, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
+[sub_resource type="Curve" id="Curve_6ei4y"]
+_data = [Vector2(0, 0.627273), 0.0, 2.64849, 0, 0, Vector2(1, 0.509091), 0.0, 0.0, 0, 0]
+point_count = 2
 
-[sub_resource type="CurveTexture" id="CurveTexture_11hkn"]
-curve = SubResource("Curve_8t164")
+[sub_resource type="CurveTexture" id="CurveTexture_5r1j0"]
+curve = SubResource("Curve_6ei4y")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_osbm4"]
-direction = Vector3(0, 0, 1)
-spread = 10.0
+direction = Vector3(0, 1, 0)
+spread = 1.0
 gravity = Vector3(0, 0, 0)
-initial_velocity_min = 10.0
-initial_velocity_max = 20.0
-linear_accel_min = -10.0
-linear_accel_max = -5.0
-damping_min = 1.0
-damping_max = 5.0
-scale_curve = SubResource("CurveTexture_11hkn")
+initial_velocity_min = 40.0
+initial_velocity_max = 50.0
+scale_curve = SubResource("CurveTexture_5r1j0")
 color_ramp = SubResource("GradientTexture1D_hppf4")
+attractor_interaction_enabled = false
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8ylgv"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_frss0"]
+transparency = 1
 vertex_color_use_as_albedo = true
+emission_enabled = true
+emission = Color(0, 0.419608, 0.47451, 1)
+emission_energy_multiplier = 4.32
 
-[sub_resource type="SphereMesh" id="SphereMesh_ngwog"]
-material = SubResource("StandardMaterial3D_8ylgv")
+[sub_resource type="TorusMesh" id="TorusMesh_yp5i6"]
+material = SubResource("StandardMaterial3D_frss0")
+inner_radius = 0.3
+outer_radius = 0.35
+rings = 16
+ring_segments = 8
+
+[sub_resource type="TorusMesh" id="TorusMesh_7pota"]
+material = SubResource("StandardMaterial3D_frss0")
+inner_radius = 0.2
+outer_radius = 0.22
+rings = 16
+ring_segments = 8
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_80xxs"]
 properties/0/path = NodePath(".:position")
@@ -53,11 +65,10 @@ properties/1/sync = true
 motion_mode = 1
 script = ExtResource("1_5d0vp")
 
-[node name="model" parent="." instance=ExtResource("3_lu40k")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+[node name="fither" parent="." instance=ExtResource("2_ic07s")]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.491919)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.140455)
 shape = SubResource("CapsuleShape3D_n2gwh")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -95,13 +106,26 @@ offset_top = 564.0
 offset_right = 317.0
 offset_bottom = 602.0
 
-[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.44376)
-emitting = false
-amount = 32
-visibility_aabb = AABB(-4, -4, -7.12007, 8, 8, 14.6874)
+[node name="MainEngineParticles" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.364036, 2.83657)
+amount = 16
+lifetime = 0.1
 process_material = SubResource("ParticleProcessMaterial_osbm4")
-draw_pass_1 = SubResource("SphereMesh_ngwog")
+draw_pass_1 = SubResource("TorusMesh_yp5i6")
+
+[node name="SideEngine" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.38227, 0.284064, 1.60541)
+amount = 16
+lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_osbm4")
+draw_pass_1 = SubResource("TorusMesh_7pota")
+
+[node name="SideEngine2" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -1.382, 0.284, 1.605)
+amount = 16
+lifetime = 0.1
+process_material = SubResource("ParticleProcessMaterial_osbm4")
+draw_pass_1 = SubResource("TorusMesh_7pota")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_80xxs")

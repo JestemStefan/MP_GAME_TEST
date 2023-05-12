@@ -1,0 +1,31 @@
+[gd_scene load_steps=9 format=3 uid="uid://cshppr41gllxb"]
+
+[ext_resource type="PackedScene" uid="uid://b8r8kc0ky7k45" path="res://scenes/player/fighter/fither.gltf" id="1_hlefy"]
+[ext_resource type="Texture2D" uid="uid://dclsr3tfwrwx4" path="res://scenes/player/fighter/spaceship_Albedo_blue.tga" id="2_t75ug"]
+[ext_resource type="Texture2D" uid="uid://bihoqx0yxvn0w" path="res://scenes/player/fighter/spaceship_Occlusion.tga" id="3_m5l3f"]
+[ext_resource type="Texture2D" uid="uid://cpp6jks2ncek6" path="res://scenes/player/fighter/spaceship_Emission.tga" id="4_2y68p"]
+[ext_resource type="Texture2D" uid="uid://drrucojpnkexf" path="res://scenes/player/fighter/spaceship_Height.tga" id="5_2cks4"]
+[ext_resource type="Texture2D" uid="uid://d3mljidtnbxmv" path="res://scenes/player/fighter/spaceship_Metallic.tga" id="6_23eso"]
+[ext_resource type="Texture2D" uid="uid://cvvbkxp0sauqx" path="res://scenes/player/fighter/spaceship_Normal.tga" id="7_y4r06"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hxexn"]
+albedo_texture = ExtResource("2_t75ug")
+metallic = 0.88
+metallic_texture = ExtResource("6_23eso")
+roughness = 0.11
+emission_enabled = true
+emission_energy_multiplier = 5.0
+emission_texture = ExtResource("4_2y68p")
+normal_enabled = true
+normal_texture = ExtResource("7_y4r06")
+ao_enabled = true
+ao_light_affect = 1.0
+ao_texture = ExtResource("3_m5l3f")
+heightmap_scale = 0.5
+heightmap_texture = ExtResource("5_2cks4")
+
+[node name="fither" instance=ExtResource("1_hlefy")]
+
+[node name="fighter" parent="." index="0"]
+transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
+surface_material_override/0 = SubResource("StandardMaterial3D_hxexn")

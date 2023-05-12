@@ -10,6 +10,8 @@ var mouse_steering: Vector2 = Vector2.ZERO
 
 var current_target = null
 
+var health: int = 100
+
 @onready var bullet_scene = preload("res://scenes/bullet/bullet.tscn")
 
 @onready var chat_entry = $Control/LineEdit
@@ -73,17 +75,32 @@ func _lock_and_load():
 	self.set_current_target.rpc()
 	
 
-@rpc("call_local")
-func set_current_target():
-#	if multiplayer.get_remote_sender_id() == multiplayer.get_unique_id():
-#		var players = get_tree().get_nodes_in_group("players")
-#		print("Local state: " + str(players))
-#
-#
-#	else:
-#		var players = get_tree().get_nodes_in_group("players")
-#		print("Remote state: " + str(players)) 
+func debug():
+	if multiplayer.get_remote_sender_id() == multiplayer.get_unique_id():
+		print("Local state: " + str(self.health))
+
+	else:
+		print("Remote state: " + str(self.health)) 
+
+@rpc("call_local", "any_peer", "reliable")
+func receive_damage():
+	self.health -= 20
 	
+	if self.health <= 0:
+		print("I'm dead")
+		self.call_deferred("free")
+	
+	if is_multiplayer_authority():
+		self.update_health.rpc(self.health)
+
+@rpc("call_local", "reliable")
+func update_health(hp):
+	self.health = hp
+	chat_display.text = str(hp)
+	
+
+@rpc("call_local", "reliable")
+func set_current_target():
 	var players = get_tree().get_nodes_in_group("players")
 	for player in players:
 		if player != self:
@@ -91,12 +108,14 @@ func set_current_target():
 			break
 			
 	
-@rpc("call_local")
+@rpc("call_local", "unreliable")
 func _spawn_particles(on_off):
-	$GPUParticles3D.set_emitting(on_off)
+	$MainEngineParticles.set_emitting(on_off)
+	$SideEngine.set_emitting(on_off)
+	$SideEngine2.set_emitting(on_off)
 
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func _shoot_weapon(target):
 	var new_bullet = bullet_scene.instantiate()
 	new_bullet.position = self.position - self.transform.basis.z * 5
@@ -117,7 +136,7 @@ func _handle_chat():
 		chat_entry.grab_focus()
 
 
-@rpc("call_local")
+@rpc("call_local", "reliable")
 func update_text(new_text):
 	chat_display.text = new_text
 	
